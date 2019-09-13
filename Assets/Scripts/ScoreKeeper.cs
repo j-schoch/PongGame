@@ -20,6 +20,11 @@ public class ScoreKeeper : MonoBehaviour
     [SerializeField] private int _highscoreListLength = 5;
     [SerializeField] private HighscoreUI _highscoreUI;
     [SerializeField] private EndOfGameUI _endOfGameUI;
+    [SerializeField] private GameOverUI _gameOverUI;
+
+    [SerializeField] private PaddleController _player1;
+    [SerializeField] private PaddleController _player2;
+    [SerializeField] private Ball _ball;
 
     private List<Highscore> _highscores = new List<Highscore>();
 
@@ -56,14 +61,19 @@ public class ScoreKeeper : MonoBehaviour
         PlayerPrefs.Save();
     }
 
-    public void AddMultiplier(int multiplierChange)
+    public void AddScoreMultiplier(int multiplierChange)
     {
-        SetMultiplier(_scoreMultiplier + multiplierChange);
+        SetScoreMultiplier(_scoreMultiplier + multiplierChange);
+    }
+
+    public void MultiplyScoreMultiplier(int multiplier)
+    {
+        SetScoreMultiplier(_scoreMultiplier * multiplier);
     }
 
     public void ResetMultiplier()
     {
-        SetMultiplier(1);
+        SetScoreMultiplier(1);
     }
 
     public void ResetScore()
@@ -94,7 +104,7 @@ public class ScoreKeeper : MonoBehaviour
         if(_lastPaddleHit != paddle)
         {
             AddScore(1, paddle.transform);
-            AddMultiplier(2);
+            AddScoreMultiplier(1);
             _lastPaddleHit = paddle;
         }
     }
@@ -114,7 +124,7 @@ public class ScoreKeeper : MonoBehaviour
         _scoreText.text = $"Score: {_score}";
     }
 
-    public void SetMultiplier(int newMultiplier)
+    public void SetScoreMultiplier(int newMultiplier)
     {
         if(newMultiplier != _scoreMultiplier)
         {
@@ -126,14 +136,18 @@ public class ScoreKeeper : MonoBehaviour
 
     public void EndGame()
     {
-        if(HasNewHighscore())
+        _ball.ResetSpeed();
+        _gameOverUI.Show(_player1, _player2, () => 
         {
-            _highscoreUI.Show(_score, OnNewHighscoreSaved);
-        }
-        else
-        {
-            _endOfGameUI.Show(_highscores);
-        }
+            if(HasNewHighscore())
+            {
+                _highscoreUI.Show(_score, OnNewHighscoreSaved);
+            }
+            else
+            {
+                _endOfGameUI.Show(_highscores);
+            }
+        });
     }
 
     public bool HasNewHighscore()

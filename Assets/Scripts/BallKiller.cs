@@ -18,7 +18,7 @@ public class BallKiller : MonoBehaviour
             {
                 ballBody.simulated = false;
                 ballBody.isKinematic = true;
-                ballBody.velocity = Vector2.zero;
+                ball.ResetSpeed();
             }
 
             StartCoroutine(DestroyBallCoroutine(ball));

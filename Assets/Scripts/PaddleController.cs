@@ -2,6 +2,7 @@
 using System.Collections;
 using UnityEngine;
 using DG.Tweening;
+using System.Collections.Generic;
 
 public class PaddleController : MonoBehaviour
 {
@@ -24,26 +25,66 @@ public class PaddleController : MonoBehaviour
     [Space]
     [SerializeField] private SpriteRenderer _paddleSprite;
 
-    public bool HoldingBall => _ballCatcher != null && _ballCatcher.HoldingBall;
+    [SerializeField] private GameObject _lightningPaddle;
+    [SerializeField] private GameObject _powerPaddle;
+    [SerializeField] private GameObject _swiftPaddle;
 
+    public bool HoldingBall => _ballCatcher != null && _ballCatcher.HoldingBall;
     public float CurrentMoveSpeed => _moveSpeed * _moveSpeedMultiplier;
+
+    public int GoalsRemaining
+    {
+        get; private set;
+    }
 
     private Rigidbody2D _rigidbody;
     private PlayerInput _currentInputs;
     private Vector2 _directionalInput;
     private float _moveSpeedMultiplier = 1f;
-
     private bool _aiming;
+    private ScoreKeeper _scoreKeeper;
+    public float SpeedIncreasePerBounce = 0.1f;
 
     private void Awake()
     {
         _rigidbody = GetComponentInChildren<Rigidbody2D>();
+        _scoreKeeper = FindObjectOfType<ScoreKeeper>();
     }
 
     public void Update()
     {
         UpdatePlayerInputs();
         UpdateBallCatch();
+    }
+
+    public void SelectLightingPaddle()
+    {
+        _lightningPaddle.SetActive(true);
+        _powerPaddle.SetActive(false);
+        _swiftPaddle.SetActive(false);
+        _paddleSprite.enabled=false;
+        _paddleSprite.transform.localScale = new Vector3(6,1,1);
+        _ballCatcher.transform.localScale = new Vector3(1.5f,1,1);
+    }
+
+    public void SelectPowerPaddle()
+    {
+        _lightningPaddle.SetActive(false);
+        _powerPaddle.SetActive(true);
+        _swiftPaddle.SetActive(false);
+        _paddleSprite.enabled=false;
+
+        SpeedIncreasePerBounce = .4f;
+    }
+
+    public void SelectSwiftPaddle()
+    {
+        _lightningPaddle.SetActive(false);
+        _powerPaddle.SetActive(false);
+        _swiftPaddle.SetActive(true);
+        _paddleSprite.enabled=false;
+
+        _moveSpeedMultiplier = 2.25f;
     }
 
     private void UpdatePlayerInputs()
@@ -144,7 +185,21 @@ public class PaddleController : MonoBehaviour
 
     public void ChangePaddleColor(Color color)
     {
-        _paddleSprite.DOColor(color, 0.5f);
+        _paddleSprite.DOBlendableColor(color, 0.5f);
+    }
+
+    public void GoalAdded()
+    {
+        GoalsRemaining++;
+    }
+
+    public void GoalDestroyed()
+    {
+        GoalsRemaining--;
+        if(GoalsRemaining <= 0)
+        {
+            _scoreKeeper.EndGame();
+        }
     }
 
     private IEnumerator Timer(float time, Action onTimerEnd)

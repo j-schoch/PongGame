@@ -41,7 +41,7 @@ public class ScoreEffects : MonoBehaviour
         if(relevantLocation != null)
         {
             // move text away from location in the local upward direction
-            Vector3 textOffset = relevantLocation.up * 2;
+            Vector3 textOffset = relevantLocation.up * 5;
             text.transform.position = relevantLocation.position + textOffset;
         }
         else

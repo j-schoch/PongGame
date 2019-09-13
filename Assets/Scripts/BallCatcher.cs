@@ -48,7 +48,11 @@ public class BallCatcher : MonoBehaviour
 
             _heldBall.transform.SetParent(null);
 
-            _heldBall.velocity =  GetOffsetLaunchDirection() * _launchStrength;
+            Ball ball = _heldBall.GetComponentInParent<Ball>();
+
+            var paddle = GetComponentInParent<PaddleController>();
+
+            ball.ChangeSpeedAndSetDirection(_launchStrength + paddle.SpeedIncreasePerBounce, GetOffsetLaunchDirection());
             _heldBall.GetComponentInChildren<TrailRenderer>().emitting = true;
 
             _heldBall = null;
@@ -89,14 +93,13 @@ public class BallCatcher : MonoBehaviour
         if(HoldingBall)
         {
             _heldBall.GetComponentInChildren<TrailRenderer>().emitting = false;
-            _heldBall.velocity = Vector2.zero;
+            ball.ResetSpeed();
             _heldBall.simulated = false;
             _heldBall.isKinematic = true;
 
             _heldBall.transform.position = _holdPosition.position;
             _heldBall.transform.SetParent(_holdPosition);
             var paddle = GetComponentInParent<PaddleController>();
-            paddle.ResetSpeedMultiplier();
             _scoreKeeper.CaughtBall(paddle);
             
             ball.HitByPaddle(paddle);

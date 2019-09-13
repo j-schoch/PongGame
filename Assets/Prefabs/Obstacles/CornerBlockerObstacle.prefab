@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &2680076994137910882
+--- !u!1 &254194330018243557
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,8 +8,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4085749397811151383}
-  - component: {fileID: 7613663671248131571}
+  - component: {fileID: 6998812111031090753}
+  - component: {fileID: 521229745395291144}
   m_Layer: 14
   m_Name: PaddleBlocker
   m_TagString: Untagged
@@ -17,13 +17,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4085749397811151383
+--- !u!4 &6998812111031090753
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2680076994137910882}
+  m_GameObject: {fileID: 254194330018243557}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -31,20 +31,20 @@ Transform:
   m_Father: {fileID: 5667060046409937680}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &7613663671248131571
+--- !u!61 &521229745395291144
 BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2680076994137910882}
+  m_GameObject: {fileID: 254194330018243557}
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.28496644, y: -0.29079413}
+  m_Offset: {x: -0.0996805, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -55,7 +55,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.5, y: 0.5}
+  m_Size: {x: 0.80063903, y: 1}
   m_EdgeRadius: 0
 --- !u!1 &8950809893025267590
 GameObject:
@@ -146,7 +146,7 @@ PolygonCollider2D:
   m_GameObject: {fileID: 8950809893025267590}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: fb4994eb3276d4b058b9ab924ac293e4, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -176,11 +176,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: CornerBlockerObstacle
-      objectReference: {fileID: 0}
-    - target: {fileID: 3846339456263856825, guid: f50a004ef8ab64a328f4c0e5bdc8d339,
-        type: 3}
-      propertyPath: m_Constraints
-      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 6550082917134065010, guid: f50a004ef8ab64a328f4c0e5bdc8d339,
         type: 3}
@@ -251,6 +246,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.y
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3846339456263856825, guid: f50a004ef8ab64a328f4c0e5bdc8d339,
+        type: 3}
+      propertyPath: m_Constraints
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 5719601389621930135, guid: f50a004ef8ab64a328f4c0e5bdc8d339,
         type: 3}

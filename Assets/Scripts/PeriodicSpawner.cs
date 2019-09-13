@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PeriodicSpawner : MonoBehaviour
@@ -9,6 +10,9 @@ public class PeriodicSpawner : MonoBehaviour
     [SerializeField] private Vector2 _spawnDelayRange;
     [SerializeField] private BoxCollider2D _spawnArea;
     [SerializeField] private float _maxSpawnLifetime;
+    [SerializeField] private int _maxSpawnsExisting;
+
+    private List<GameObject> _spawnedObjects = new List<GameObject>();
 
     private float _nextSpawnTime;
     private float _timeSinceLastSpawn;
@@ -23,7 +27,7 @@ public class PeriodicSpawner : MonoBehaviour
     {
         _timeSinceLastSpawn += Time.deltaTime;
 
-        if(_timeSinceLastSpawn >= _nextSpawnTime)
+        if(_timeSinceLastSpawn >= _nextSpawnTime && _spawnedObjects.Count < _maxSpawnsExisting)
         {
             SpawnOne();
         }
@@ -37,7 +41,22 @@ public class PeriodicSpawner : MonoBehaviour
         int randomIndex = Random.Range(0, _spawnables.Count);
         Vector2 position = _spawnArea != null ? RandomPointInBox(_spawnArea.bounds.center, _spawnArea.size) : (Vector2)transform.position;
         GameObject spawnedObject = Instantiate(_spawnables[randomIndex], position, Quaternion.identity);
-        Destroy(spawnedObject, _maxSpawnLifetime);
+        _spawnedObjects.Add(spawnedObject);
+        StartCoroutine(KillAfterTime(spawnedObject, _maxSpawnLifetime));
+    }
+
+    private IEnumerator KillAfterTime(GameObject toKill, float time)
+    {
+        yield return new WaitForSeconds(time);
+        if(toKill != null)
+        {
+            _spawnedObjects.Remove(toKill);
+            Destroy(toKill);
+        }
+        else
+        {
+            _spawnedObjects.RemoveAll(obj => obj == null);
+        }
     }
 
     private void ScheduleNextSpawn(float delay)
