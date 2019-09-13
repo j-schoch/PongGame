@@ -32,7 +32,7 @@ public class BallCatcher : MonoBehaviour
         Collider2D[] results = new Collider2D[1];
         if(_catchCollider.OverlapCollider(contactFilter, results) > 0)
         {
-            CatchBall(results[0].gameObject);
+            CatchBall(results[0].GetComponentInParent<Ball>());
             return true;
         }
 
@@ -77,8 +77,13 @@ public class BallCatcher : MonoBehaviour
         return Quaternion.Euler(0, 0, _launchAngleOffset) * transform.up;
     }
     
-    public void CatchBall(GameObject ball)
+    public void CatchBall(Ball ball)
     {
+        if(ball == null)
+        {
+            return;
+        }
+
         _heldBall = ball.GetComponentInParent<Rigidbody2D>();
 
         if(HoldingBall)
@@ -93,6 +98,8 @@ public class BallCatcher : MonoBehaviour
             var paddle = GetComponentInParent<PaddleController>();
             paddle.ResetSpeedMultiplier();
             _scoreKeeper.CaughtBall(paddle);
+            
+            ball.HitByPaddle(paddle);
         }
     }
 }

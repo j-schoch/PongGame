@@ -9,7 +9,8 @@ public class BallKiller : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        if(collider.GetComponentInParent<Ball>() != null)
+        Ball ball = collider.GetComponentInParent<Ball>();
+        if(ball != null)
         {
             Rigidbody2D ballBody = collider.GetComponentInParent<Rigidbody2D>();
             
@@ -20,15 +21,15 @@ public class BallKiller : MonoBehaviour
                 ballBody.velocity = Vector2.zero;
             }
 
-            StartCoroutine(DestroyBallCoroutine(collider.gameObject));
+            StartCoroutine(DestroyBallCoroutine(ball));
         }
     }
 
-    private IEnumerator DestroyBallCoroutine(GameObject ball)
+    private IEnumerator DestroyBallCoroutine(Ball ball)
     {
-        Time.timeScale = .5f;
+        Time.timeScale = .3f;
         _lifebar.RemoveLife();
-        yield return new WaitForSeconds(_killDelay);
+        yield return new WaitForSeconds(_killDelay * Time.timeScale);
         Time.timeScale = 1f;
         _catcherForRespawn.CatchBall(ball);
     }

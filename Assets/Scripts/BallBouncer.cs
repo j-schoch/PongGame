@@ -13,14 +13,22 @@ public class BallBouncer : MonoBehaviour
     
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.collider.GetComponentInParent<Ball>() != null)
+        Ball ball = collision.collider.GetComponentInParent<Ball>();
+        if(ball != null)
         {
+            float speedIncreasePerBounce = 0.1f;
+
             Vector3 awayFromPaddleDir = (collision.collider.transform.position - transform.position).normalized;
-            collision.rigidbody.velocity = awayFromPaddleDir * collision.rigidbody.velocity.magnitude * 1.02f; // increase ball speed each hit
+            collision.rigidbody.velocity = awayFromPaddleDir * collision.rigidbody.velocity.magnitude * (1 + speedIncreasePerBounce); // increase ball speed each hit
 
             var paddle = GetComponentInParent<PaddleController>();
-            paddle.AddSpeedMultiplier(.05f);
+            paddle.AddSpeedMultiplier(speedIncreasePerBounce);
             _scoreKeeper.HitPaddle(paddle);
+
+            //disable catching if the paddle was hit
+            paddle.TimeoutCatch();
+
+            ball.HitByPaddle(paddle);
         }
     }
 }

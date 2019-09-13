@@ -14,4 +14,10 @@ public class ViewportStartPosition : MonoBehaviour
         startPosition.y = viewportStart.y;
         transform.position = startPosition;
     }
+
+    [ContextMenu("ApplyPosition")]
+    private void ApplyPosition()
+    {
+        Start();
+    }
 }

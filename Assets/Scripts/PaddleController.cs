@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections;
+using UnityEngine;
+using DG.Tweening;
 
 public class PaddleController : MonoBehaviour
 {
@@ -14,6 +17,12 @@ public class PaddleController : MonoBehaviour
     [Header("Catch and Launch")]
     [SerializeField] private BallCatcher _ballCatcher;
     [SerializeField] private float _aimSpeed;
+
+    [Space]
+    [SerializeField] private float _timeoutCatchAfterBounce;
+
+    [Space]
+    [SerializeField] private SpriteRenderer _paddleSprite;
 
     public bool HoldingBall => _ballCatcher != null && _ballCatcher.HoldingBall;
 
@@ -75,7 +84,7 @@ public class PaddleController : MonoBehaviour
 
     private void UpdateBallCatch()
     {
-        if(_ballCatcher == null) return;
+        if(_ballCatcher == null || !_ballCatcher.enabled) return;
 
         if(HoldingBall)
         {
@@ -119,6 +128,29 @@ public class PaddleController : MonoBehaviour
     public void ResetSpeedMultiplier()
     {
         _moveSpeedMultiplier = 1;
+    }
+
+    public void TimeoutCatch()
+    {
+        _ballCatcher.enabled = false;
+        StartCoroutine(Timer(_timeoutCatchAfterBounce, () => _ballCatcher.enabled = true));
+    }
+
+    public void ChangePaddleWidth(float changeInWidth)
+    {
+        DOTween.Kill(_paddleSprite.transform, complete: true);
+        _paddleSprite.transform.DOScaleX(changeInWidth, .5f).SetRelative().SetEase(Ease.OutBack);
+    }
+
+    public void ChangePaddleColor(Color color)
+    {
+        _paddleSprite.DOColor(color, 0.5f);
+    }
+
+    private IEnumerator Timer(float time, Action onTimerEnd)
+    {
+        yield return new WaitForSeconds(time);
+        onTimerEnd?.Invoke();
     }
 
     private struct PlayerInput

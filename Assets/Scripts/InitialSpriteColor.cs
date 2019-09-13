@@ -2,9 +2,9 @@
 using System.Linq;
 using UnityEngine;
 
-[RequireComponent(typeof(SpriteRenderer))]
 public class InitialSpriteColor : MonoBehaviour
 {
+    [SerializeField] private bool _singleColorChildren;
     [SerializeField] private List<Color> colors;
     private List<SpriteRenderer> _spriteRenderers;
 
@@ -20,7 +20,18 @@ public class InitialSpriteColor : MonoBehaviour
             return;
         }
 
-        int randomIndex = Random.Range(0, colors.Count);
-        _spriteRenderers.ForEach(sprite => sprite.color = colors[randomIndex]);
+        if(_singleColorChildren) 
+        {
+            int randomIndex = Random.Range(0, colors.Count);
+            _spriteRenderers.ForEach(sprite => sprite.color = colors[randomIndex]);
+        } 
+        else 
+        {
+            _spriteRenderers.ForEach(sprite => 
+            {
+                int randomIndex = Random.Range(0, colors.Count);
+                sprite.color = colors[randomIndex];
+            });
+        }
     }
 }

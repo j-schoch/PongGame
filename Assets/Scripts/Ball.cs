@@ -4,6 +4,11 @@ public class Ball : MonoBehaviour
 {
     [SerializeField] private float _maxSpeed;
     private Rigidbody2D _rigidbody;
+
+    public PaddleController LastPaddleHit
+    {
+        get; private set;
+    }
     
     private void Awake()
     {
@@ -13,5 +18,10 @@ public class Ball : MonoBehaviour
     private void FixedUpdate()
     {
         _rigidbody.velocity = Vector3.ClampMagnitude(_rigidbody.velocity, _maxSpeed);
+    }
+
+    public void HitByPaddle(PaddleController paddle)
+    {
+        LastPaddleHit = paddle;
     }
 }

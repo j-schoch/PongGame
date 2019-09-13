@@ -19,8 +19,8 @@ TagManager:
   - Triggers
   - Obstacles
   - LeftRightWalls
-  - 
-  - 
+  - CollideWithPaddlesOnly
+  - Powerups
   - 
   - 
   - 
@@ -38,6 +38,15 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Background
+    uniqueID: 3184133319
+    locked: 0
+  - name: Paddles
+    uniqueID: 1385338549
+    locked: 0
+  - name: Foreground
+    uniqueID: 4208638367
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0

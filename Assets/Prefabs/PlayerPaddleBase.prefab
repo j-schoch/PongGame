@@ -184,9 +184,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: -1
+  m_SortingLayerID: 1385338549
+  m_SortingLayer: -2
+  m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 8b715f689fac64ecd9ae9d460a8473dc, type: 3}
   m_Color: {r: 1, g: 0.64280593, b: 0, a: 1}
   m_FlipX: 0
@@ -305,7 +305,7 @@ MonoBehaviour:
     m_Bits: 512
   _holdPosition: {fileID: 3282483684005560433}
   _launchDirectionVisualizer: {fileID: 8894060364943531293}
-  _launchStrength: 8
+  _launchStrength: 12
   _launchDirectionAngleMax: 45
 --- !u!1 &8024448476049609382
 GameObject:
@@ -414,6 +414,8 @@ MonoBehaviour:
   _moveSpeed: 25
   _ballCatcher: {fileID: 9077949097110257044}
   _aimSpeed: 45
+  _timeoutCatchAfterBounce: 0.25
+  _paddleSprite: {fileID: 8157708043972384465}
 --- !u!114 &7467336717314169881
 MonoBehaviour:
   m_ObjectHideFlags: 0
